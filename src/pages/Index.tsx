@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,13 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Upload, Paperclip, Image, FileArchive, Sparkles, Code, Database, Globe, Check, Star, X, ArrowRight, Zap, Shield, Rocket } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [prompt, setPrompt] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [dragActive, setDragActive] = useState(false);
-  const [showPricing, setShowPricing] = useState(false);
   const [currency, setCurrency] = useState("USD");
   const [userTier, setUserTier] = useState("trial");
   const [dailyUsage, setDailyUsage] = useState(0);
@@ -150,12 +149,16 @@ const Index = () => {
             <span className="text-xl font-bold text-white tracking-tight">Extrox.dev</span>
           </div>
           <div className="flex items-center space-x-3">
-            <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-gray-800/50 font-medium px-4 py-2 h-9">
-              Sign In
-            </Button>
-            <Button className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-5 py-2 h-9 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-200">
-              Get Started Free
-            </Button>
+            <Link to="/auth">
+              <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-gray-800/50 font-medium px-4 py-2 h-9">
+                Sign In
+              </Button>
+            </Link>
+            <Link to="/auth">
+              <Button className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-5 py-2 h-9 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-200">
+                Get Started Free
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
@@ -308,15 +311,8 @@ const Index = () => {
                     )}
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex justify-between items-center pt-1">
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowPricing(!showPricing)}
-                      className="border-gray-600/40 text-white hover:bg-gray-800/40 hover:border-gray-500/40 font-medium text-sm h-9"
-                    >
-                      View Pricing
-                    </Button>
+                  {/* Action Button */}
+                  <div className="flex justify-end items-center pt-1">
                     <Button
                       onClick={handleSubmit}
                       disabled={!prompt.trim() || !selectedRole || wordCount > maxWords}
@@ -333,187 +329,185 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Pricing Section */}
-        {showPricing && (
-          <section className="pb-12 px-6">
-            <div className="container mx-auto max-w-6xl">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Choose Your Plan</h2>
-                <p className="text-lg text-gray-400 mb-6 max-w-xl mx-auto">Start free and scale as you grow. All plans include hosting and database.</p>
-                <div className="flex items-center justify-center space-x-3">
-                  <span className={`text-sm font-medium ${currency === 'USD' ? 'text-white' : 'text-gray-400'}`}>USD</span>
-                  <Switch
-                    checked={currency === 'INR'}
-                    onCheckedChange={(checked) => setCurrency(checked ? 'INR' : 'USD')}
-                    className="data-[state=checked]:bg-emerald-500"
-                  />
-                  <span className={`text-sm font-medium ${currency === 'INR' ? 'text-white' : 'text-gray-400'}`}>INR</span>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-4 gap-6">
-                {/* Trial Plan */}
-                <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
-                  <CardContent className="p-6">
-                    <div className="text-center mb-6">
-                      <h3 className="text-xl font-bold text-white mb-3">Trial</h3>
-                      <div className="text-3xl font-bold text-emerald-400 mb-1">Free</div>
-                      <p className="text-gray-400 text-sm">Forever</p>
-                    </div>
-                    <ul className="space-y-3 text-sm mb-6">
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        1 request per day
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        20 requests per month
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Free Vercel hosting
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Free Supabase database
-                      </li>
-                    </ul>
-                    <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-semibold py-2 h-9">
-                      Get Started
-                    </Button>
-                    <p className="text-xs text-gray-500 mt-3 text-center">
-                      * Extra costs may apply if scaling beyond free limits
-                    </p>
-                  </CardContent>
-                </Card>
-
-                {/* Premium Plan */}
-                <Card className="bg-gray-900/40 border-emerald-500/40 backdrop-blur-sm relative transform scale-105">
-                  <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-black px-3 py-1 font-semibold text-xs">
-                    Most Popular
-                  </Badge>
-                  <CardContent className="p-6">
-                    <div className="text-center mb-6">
-                      <h3 className="text-xl font-bold text-white mb-3">Premium</h3>
-                      <div className="text-3xl font-bold text-emerald-400 mb-1">
-                        {currency === 'USD' ? '$' : '₹'}{pricing[currency].premium}
-                      </div>
-                      <p className="text-gray-400 text-sm">per month</p>
-                    </div>
-                    <ul className="space-y-3 text-sm mb-6">
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        15 requests per day
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        300 requests per month
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Free Vercel hosting
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Free Supabase database
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Priority support
-                      </li>
-                    </ul>
-                    <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-semibold py-2 h-9">
-                      Upgrade Now
-                    </Button>
-                    <p className="text-xs text-gray-500 mt-3 text-center">
-                      * Extra costs may apply if scaling beyond free limits
-                    </p>
-                  </CardContent>
-                </Card>
-
-                {/* Pro Plan */}
-                <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
-                  <CardContent className="p-6">
-                    <div className="text-center mb-6">
-                      <h3 className="text-xl font-bold text-white mb-3">Pro</h3>
-                      <div className="text-3xl font-bold text-white mb-1">
-                        {currency === 'USD' ? '$' : '₹'}{pricing[currency].pro}
-                      </div>
-                      <p className="text-gray-400 text-sm">per month</p>
-                    </div>
-                    <ul className="space-y-3 text-sm mb-6">
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        30 requests per day
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        500 requests per month
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Free Vercel hosting
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Free Supabase database
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Advanced features
-                      </li>
-                    </ul>
-                    <Button className="w-full bg-white hover:bg-gray-100 text-black font-semibold py-2 h-9">
-                      Upgrade Now
-                    </Button>
-                    <p className="text-xs text-gray-500 mt-3 text-center">
-                      * Extra costs may apply if scaling beyond free limits
-                    </p>
-                  </CardContent>
-                </Card>
-
-                {/* Enterprise Plan */}
-                <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
-                  <CardContent className="p-6">
-                    <div className="text-center mb-6">
-                      <h3 className="text-xl font-bold text-white mb-3">Enterprise</h3>
-                      <div className="text-2xl font-bold text-white mb-1">Custom</div>
-                      <p className="text-gray-400 text-sm">Contact us</p>
-                    </div>
-                    <ul className="space-y-3 text-sm mb-6">
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Unlimited requests
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Custom solutions
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Dedicated support
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        Custom integrations
-                      </li>
-                      <li className="flex items-center text-gray-300">
-                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
-                        SLA guarantee
-                      </li>
-                    </ul>
-                    <Button className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 h-9">
-                      Contact Sales
-                    </Button>
-                    <p className="text-xs text-gray-500 mt-3 text-center">
-                      * Customizable according to needs
-                    </p>
-                  </CardContent>
-                </Card>
+        {/* Pricing Section - Always Visible */}
+        <section className="pb-12 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Choose Your Plan</h2>
+              <p className="text-lg text-gray-400 mb-6 max-w-xl mx-auto">Start free and scale as you grow. All plans include hosting and database.</p>
+              <div className="flex items-center justify-center space-x-3">
+                <span className={`text-sm font-medium ${currency === 'USD' ? 'text-white' : 'text-gray-400'}`}>USD</span>
+                <Switch
+                  checked={currency === 'INR'}
+                  onCheckedChange={(checked) => setCurrency(checked ? 'INR' : 'USD')}
+                  className="data-[state=checked]:bg-emerald-500"
+                />
+                <span className={`text-sm font-medium ${currency === 'INR' ? 'text-white' : 'text-gray-400'}`}>INR</span>
               </div>
             </div>
-          </section>
-        )}
+
+            <div className="grid md:grid-cols-4 gap-6">
+              {/* Trial Plan */}
+              <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
+                <CardContent className="p-6">
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-bold text-white mb-3">Trial</h3>
+                    <div className="text-3xl font-bold text-emerald-400 mb-1">Free</div>
+                    <p className="text-gray-400 text-sm">Forever</p>
+                  </div>
+                  <ul className="space-y-3 text-sm mb-6">
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      1 request per day
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      20 requests per month
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Free Vercel hosting
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Free Supabase database
+                    </li>
+                  </ul>
+                  <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-semibold py-2 h-9">
+                    Get Started
+                  </Button>
+                  <p className="text-xs text-gray-500 mt-3 text-center">
+                    * Extra costs may apply if scaling beyond free limits
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Premium Plan */}
+              <Card className="bg-gray-900/40 border-emerald-500/40 backdrop-blur-sm relative transform scale-105">
+                <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-black px-3 py-1 font-semibold text-xs">
+                  Most Popular
+                </Badge>
+                <CardContent className="p-6">
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-bold text-white mb-3">Premium</h3>
+                    <div className="text-3xl font-bold text-emerald-400 mb-1">
+                      {currency === 'USD' ? '$' : '₹'}{pricing[currency].premium}
+                    </div>
+                    <p className="text-gray-400 text-sm">per month</p>
+                  </div>
+                  <ul className="space-y-3 text-sm mb-6">
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      15 requests per day
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      300 requests per month
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Free Vercel hosting
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Free Supabase database
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Priority support
+                    </li>
+                  </ul>
+                  <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-semibold py-2 h-9">
+                    Upgrade Now
+                  </Button>
+                  <p className="text-xs text-gray-500 mt-3 text-center">
+                    * Extra costs may apply if scaling beyond free limits
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Pro Plan */}
+              <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
+                <CardContent className="p-6">
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-bold text-white mb-3">Pro</h3>
+                    <div className="text-3xl font-bold text-white mb-1">
+                      {currency === 'USD' ? '$' : '₹'}{pricing[currency].pro}
+                    </div>
+                    <p className="text-gray-400 text-sm">per month</p>
+                  </div>
+                  <ul className="space-y-3 text-sm mb-6">
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      30 requests per day
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      500 requests per month
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Free Vercel hosting
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Free Supabase database
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Advanced features
+                    </li>
+                  </ul>
+                  <Button className="w-full bg-white hover:bg-gray-100 text-black font-semibold py-2 h-9">
+                    Upgrade Now
+                  </Button>
+                  <p className="text-xs text-gray-500 mt-3 text-center">
+                    * Extra costs may apply if scaling beyond free limits
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Enterprise Plan */}
+              <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
+                <CardContent className="p-6">
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-bold text-white mb-3">Enterprise</h3>
+                    <div className="text-2xl font-bold text-white mb-1">Custom</div>
+                    <p className="text-gray-400 text-sm">Contact us</p>
+                  </div>
+                  <ul className="space-y-3 text-sm mb-6">
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Unlimited requests
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Custom solutions
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Dedicated support
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      Custom integrations
+                    </li>
+                    <li className="flex items-center text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
+                      SLA guarantee
+                    </li>
+                  </ul>
+                  <Button className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 h-9">
+                    Contact Sales
+                  </Button>
+                  <p className="text-xs text-gray-500 mt-3 text-center">
+                    * Customizable according to needs
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
