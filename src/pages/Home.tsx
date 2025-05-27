@@ -23,7 +23,13 @@ const Home = () => {
       <AppSidebar isCollapsed={sidebarCollapsed} onToggle={toggleSidebar} />
 
       {/* Main Content */}
-      <HomeContent />
+      <div 
+        className={`flex-1 transition-all duration-300 ${
+          sidebarCollapsed ? 'ml-0' : 'ml-0'
+        }`}
+      >
+        <HomeContent />
+      </div>
     </div>
   );
 };

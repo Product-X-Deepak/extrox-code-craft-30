@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -28,12 +27,10 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
   const [activeSection, setActiveSection] = useState("recents");
 
   const recentProjects = [
-    "E-commerce Dashboard",
-    "Portfolio Website", 
-    "Task Management App",
-    "Blog Platform",
-    "Social Media App",
-    "Learning Management System"
+    "Web Application",
+    "Mobile App", 
+    "API Service",
+    "Database Schema"
   ];
 
   return (
@@ -52,7 +49,7 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
                 <h2 className="text-white font-semibold text-sm">Extrox.dev</h2>
                 <div className="flex items-center space-x-2">
                   <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-xs px-2 py-0">
-                    Premium
+                    Pro
                   </Badge>
                 </div>
               </div>
@@ -116,15 +113,15 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
               </button>
 
               <button
-                onClick={() => setActiveSection("community")}
+                onClick={() => setActiveSection("team")}
                 className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeSection === "community" 
+                  activeSection === "team" 
                     ? "bg-emerald-500/10 text-emerald-400" 
                     : "text-gray-300 hover:text-white hover:bg-gray-800/50"
                 }`}
               >
                 <Users className="w-4 h-4" />
-                <span>Community</span>
+                <span>Team</span>
               </button>
             </div>
 
@@ -134,7 +131,7 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
             <div className="space-y-3">
               <h3 className="text-gray-400 text-xs font-medium uppercase tracking-wider">
                 {activeSection === "recents" ? "Recent Projects" : 
-                 activeSection === "projects" ? "All Projects" : "Community Projects"}
+                 activeSection === "projects" ? "All Projects" : "Team Projects"}
               </h3>
               
               <div className="space-y-1">
@@ -153,7 +150,7 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
             </div>
           </div>
         ) : (
-          <div className="p-2 space-y-2">
+          <div className="p-2 space-y-2 mt-4">
             <Button
               variant="ghost"
               size="sm"
@@ -174,7 +171,7 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
               variant="ghost"
               size="sm"
               className="w-full h-10 text-gray-400 hover:text-white hover:bg-gray-800/50"
-              onClick={() => setActiveSection("community")}
+              onClick={() => setActiveSection("team")}
             >
               <Users className="w-4 h-4" />
             </Button>
@@ -196,7 +193,7 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
             </button>
             <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800/50 text-sm transition-colors">
               <CreditCard className="w-4 h-4" />
-              <span>Subscription</span>
+              <span>Billing</span>
             </button>
             <Separator className="bg-gray-700/50" />
             <div className="flex items-center justify-between">
@@ -205,8 +202,8 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
                   <User className="w-3 h-3 text-black" />
                 </div>
                 <div className="text-xs">
-                  <div className="text-white font-medium">John Developer</div>
-                  <div className="text-gray-400">Premium Plan</div>
+                  <div className="text-white font-medium">User</div>
+                  <div className="text-gray-400">Pro Plan</div>
                 </div>
               </div>
               <Button
