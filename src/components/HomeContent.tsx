@@ -112,7 +112,7 @@ export function HomeContent() {
     try {
       // Create project
       const projectTitle = prompt.split(' ').slice(0, 5).join(' ').substring(0, 50);
-      createProject({
+      const newProject = await createProject({
         title: projectTitle,
         description: prompt,
         type: selectedRole
@@ -131,6 +131,11 @@ export function HomeContent() {
       setPrompt("");
       setSelectedRole("");
       setUploadedFiles([]);
+
+      // Navigate to development page
+      if (newProject?.id) {
+        window.location.href = `/development/${newProject.id}`;
+      }
       
     } catch (error: any) {
       toast({
