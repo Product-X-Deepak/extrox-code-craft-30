@@ -222,7 +222,7 @@ export function HomeContent() {
                   </Select>
                 </div>
 
-                {/* Compact Input Box with Integrated File Upload */}
+                {/* Improved Input Box with Better Layout */}
                 <div 
                   className={`relative border-2 border-dashed rounded-lg transition-all duration-300 ${
                     dragActive 
@@ -260,44 +260,47 @@ export function HomeContent() {
                     </div>
                   )}
 
-                  {/* Text Input Area - More Compact */}
+                  {/* Text Input Area - Larger and Better Spaced */}
                   <div className="relative">
                     <Textarea
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
                       placeholder="Describe what you want to build... Be specific about features, design, and functionality."
-                      className="min-h-24 bg-transparent border-none text-white placeholder-gray-500 resize-none focus:ring-0 focus:border-none text-sm leading-relaxed"
+                      className="min-h-36 bg-transparent border-none text-white placeholder-gray-500 resize-none focus:ring-0 focus:border-none text-sm leading-relaxed pb-12"
                       maxLength={maxWords * 6}
                     />
                     
-                    {/* Upload Options Bar */}
-                    <div className="absolute bottom-2 left-2 flex items-center space-x-1">
-                      <label className="cursor-pointer p-1.5 rounded-md hover:bg-gray-800/50 transition-colors group">
-                        <Paperclip className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*,.zip"
-                          className="hidden"
-                          onChange={(e) => handleFiles(Array.from(e.target.files || []))}
-                        />
-                      </label>
-                      
-                      <label className="cursor-pointer p-1.5 rounded-md hover:bg-gray-800/50 transition-colors group">
-                        <Image className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) => handleFiles(Array.from(e.target.files || []))}
-                        />
-                      </label>
-                    </div>
+                    {/* Bottom Controls Bar - Fixed at Bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between p-3 bg-gray-900/20 backdrop-blur-sm rounded-b-lg border-t border-gray-700/30">
+                      {/* Upload Options */}
+                      <div className="flex items-center space-x-1">
+                        <label className="cursor-pointer p-1.5 rounded-md hover:bg-gray-800/50 transition-colors group">
+                          <Paperclip className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
+                          <input
+                            type="file"
+                            multiple
+                            accept="image/*,.zip"
+                            className="hidden"
+                            onChange={(e) => handleFiles(Array.from(e.target.files || []))}
+                          />
+                        </label>
+                        
+                        <label className="cursor-pointer p-1.5 rounded-md hover:bg-gray-800/50 transition-colors group">
+                          <Image className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
+                          <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => handleFiles(Array.from(e.target.files || []))}
+                          />
+                        </label>
+                      </div>
 
-                    {/* Word Count */}
-                    <div className="absolute bottom-2 right-2 text-xs text-gray-500 font-medium">
-                      {wordCount}/{maxWords}
+                      {/* Word Count */}
+                      <div className="text-xs text-gray-500 font-medium">
+                        {wordCount}/{maxWords}
+                      </div>
                     </div>
                   </div>
 
