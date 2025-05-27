@@ -34,8 +34,22 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden flex">
+      {/* Background Video */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+        >
+          <source src="/Main_Backgroud_Video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
       {/* Enhanced Background Effects */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-5" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-5 z-10" />
       
       {/* Premium Gradient Orbs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/6 rounded-full blur-3xl animate-pulse" />
@@ -47,7 +61,7 @@ const Home = () => {
 
       {/* Main Content with smooth transitions */}
       <div 
-        className={`flex-1 transition-all duration-300 ease-in-out ${
+        className={`flex-1 transition-all duration-300 ease-in-out relative z-20 ${
           sidebarCollapsed ? 'ml-16' : 'ml-80'
         }`}
       >

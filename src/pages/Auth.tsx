@@ -251,8 +251,22 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center">
+      {/* Background Video */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+        >
+          <source src="/Main_Backgroud_Video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
       {/* Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-10" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-10 z-10" />
       
       {/* Gradient Orbs */}
       <div className="absolute top-0 left-1/4 w-64 h-64 bg-emerald-500/8 rounded-full blur-3xl" />
@@ -277,7 +291,7 @@ const Auth = () => {
       </header>
 
       {/* Main Auth Card */}
-      <div className="relative w-full max-w-md mx-auto px-6">
+      <div className="relative w-full max-w-md mx-auto px-6 z-20">
         <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm shadow-2xl shadow-black/20">
           <CardHeader className="text-center pb-2">
             <CardTitle className="text-2xl font-bold text-white mb-2">
