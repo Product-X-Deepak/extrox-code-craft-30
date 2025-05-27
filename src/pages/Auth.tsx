@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Code, Mail, Lock, User, Github, ArrowRight, ArrowLeft, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Code, Mail, Lock, User as UserIcon, Github, ArrowRight, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -342,7 +342,7 @@ const Auth = () => {
                   <div className="space-y-2">
                     <Label htmlFor="firstName" className="text-gray-300">First Name</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                      <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                       <Input
                         id="firstName"
                         name="firstName"
@@ -358,7 +358,7 @@ const Auth = () => {
                   <div className="space-y-2">
                     <Label htmlFor="lastName" className="text-gray-300">Last Name</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                      <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                       <Input
                         id="lastName"
                         name="lastName"

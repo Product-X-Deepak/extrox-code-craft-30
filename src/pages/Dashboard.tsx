@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,11 +8,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import type { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import type { Database } from '@/integrations/supabase/types';
+
+type UserRole = Database['public']['Enums']['app_role'];
 
 const Dashboard = () => {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
+  const [userRole, setUserRole] = useState<UserRole>('user');
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -28,11 +30,8 @@ const Dashboard = () => {
         if (!session?.user) {
           navigate('/auth');
         } else {
-          // Check user role - for demo purposes, admin is determined by email domain
-          const isAdmin = session.user.email?.includes('@extrox.dev') || 
-                          session.user.email?.includes('@admin.') ||
-                          session.user.user_metadata?.role === 'admin';
-          setUserRole(isAdmin ? 'admin' : 'user');
+          // Fetch user role from database
+          fetchUserRole(session.user.id);
         }
         setIsLoading(false);
       }
@@ -46,17 +45,32 @@ const Dashboard = () => {
       if (!session?.user) {
         navigate('/auth');
       } else {
-        // Check user role
-        const isAdmin = session.user.email?.includes('@extrox.dev') || 
-                        session.user.email?.includes('@admin.') ||
-                        session.user.user_metadata?.role === 'admin';
-        setUserRole(isAdmin ? 'admin' : 'user');
+        fetchUserRole(session.user.id);
       }
       setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, [navigate]);
+
+  const fetchUserRole = async (userId: string) => {
+    try {
+      const { data, error } = await supabase.rpc('get_user_role', {
+        _user_id: userId
+      });
+
+      if (error) {
+        console.error('Error fetching user role:', error);
+        return;
+      }
+
+      if (data) {
+        setUserRole(data as UserRole);
+      }
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+    }
+  };
 
   const handleSignOut = async () => {
     try {
