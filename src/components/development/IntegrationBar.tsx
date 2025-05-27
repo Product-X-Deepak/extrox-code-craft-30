@@ -11,6 +11,7 @@ import {
   Download
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
 
 interface IntegrationBarProps {
   project: {
@@ -105,7 +106,7 @@ export function IntegrationBar({ project }: IntegrationBarProps) {
           </div>
 
           {/* Integrations */}
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1 border-r border-gray-700 pr-3">
             <Button
               onClick={handleSupabaseConnect}
               size="sm"
@@ -134,14 +135,18 @@ export function IntegrationBar({ project }: IntegrationBarProps) {
             </Button>
           </div>
 
-          {/* Settings */}
-          <Button
-            size="sm"
-            variant="ghost"
-            className="text-gray-300 hover:text-white hover:bg-gray-800/50"
-          >
-            <Settings className="w-4 h-4" />
-          </Button>
+          {/* Settings & Delete */}
+          <div className="flex items-center space-x-1">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-gray-300 hover:text-white hover:bg-gray-800/50"
+            >
+              <Settings className="w-4 h-4" />
+            </Button>
+            
+            <ProjectDeleteDialog project={project} />
+          </div>
         </div>
       </div>
     </header>
