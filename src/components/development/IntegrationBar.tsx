@@ -8,15 +8,19 @@ import {
   Settings, 
   Save,
   Play,
-  Download
+  Download,
+  GitFork
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
+import { useProjectActions } from "@/hooks/useProjectActions";
 
 interface IntegrationBarProps {
   project: {
     id: string;
     title: string;
+    description: string | null;
+    type: string;
     status: string;
     updated_at: string;
   };
@@ -24,6 +28,7 @@ interface IntegrationBarProps {
 
 export function IntegrationBar({ project }: IntegrationBarProps) {
   const { toast } = useToast();
+  const { forkProject, isForking, exportProject } = useProjectActions();
 
   const handleSupabaseConnect = () => {
     toast({
@@ -58,6 +63,18 @@ export function IntegrationBar({ project }: IntegrationBarProps) {
       title: "Running Preview",
       description: "Updating live preview...",
     });
+  };
+
+  const handleForkProject = async () => {
+    try {
+      await forkProject(project);
+    } catch (error) {
+      // Error handled in hook
+    }
+  };
+
+  const handleExportProject = () => {
+    exportProject(project);
   };
 
   return (
@@ -102,6 +119,29 @@ export function IntegrationBar({ project }: IntegrationBarProps) {
             >
               <Play className="w-4 h-4 mr-1" />
               Preview
+            </Button>
+          </div>
+
+          {/* Project Actions */}
+          <div className="flex items-center space-x-1 border-r border-gray-700 pr-3">
+            <Button
+              onClick={handleForkProject}
+              disabled={isForking}
+              size="sm"
+              variant="ghost"
+              className="text-gray-300 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"
+            >
+              <GitFork className="w-4 h-4 mr-1" />
+              {isForking ? 'Forking...' : 'Fork'}
+            </Button>
+            <Button
+              onClick={handleExportProject}
+              size="sm"
+              variant="ghost"
+              className="text-gray-300 hover:text-green-400 hover:bg-green-500/10 transition-colors"
+            >
+              <Download className="w-4 h-4 mr-1" />
+              Export
             </Button>
           </div>
 
