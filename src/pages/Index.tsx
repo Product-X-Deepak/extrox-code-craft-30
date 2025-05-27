@@ -134,26 +134,26 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
       {/* Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-10" />
       
       {/* Gradient Orbs */}
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-400/5 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/4 w-64 h-64 bg-emerald-500/8 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-400/5 rounded-full blur-3xl" />
 
       {/* Header */}
-      <header className="relative border-b border-gray-800/50 bg-black/50 backdrop-blur-xl z-50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+      <header className="relative border-b border-gray-800/30 bg-black/60 backdrop-blur-xl z-50">
+        <div className="container mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/25">
-              <Code className="w-5 h-5 text-black" />
+            <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/20">
+              <Code className="w-4 h-4 text-black" />
             </div>
-            <span className="text-2xl font-bold text-white tracking-tight">Extrox.dev</span>
+            <span className="text-xl font-bold text-white tracking-tight">Extrox.dev</span>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-gray-800/50 font-medium">
+          <div className="flex items-center space-x-3">
+            <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-gray-800/50 font-medium px-4 py-2 h-9">
               Sign In
             </Button>
-            <Button className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-6 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-200">
+            <Button className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-5 py-2 h-9 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-200">
               Get Started Free
             </Button>
           </div>
@@ -163,40 +163,40 @@ const Index = () => {
       {/* Main Content */}
       <main className="relative">
         {/* Hero Section */}
-        <section className="pt-20 pb-12 px-6">
-          <div className="container mx-auto text-center max-w-5xl">
-            <Badge className="mb-8 bg-emerald-500/10 text-emerald-400 border-emerald-500/20 px-4 py-2 text-sm font-medium">
-              <Sparkles className="w-4 h-4 mr-2" />
+        <section className="pt-16 pb-8 px-6">
+          <div className="container mx-auto text-center max-w-4xl">
+            <Badge className="mb-6 bg-emerald-500/10 text-emerald-400 border-emerald-500/20 px-3 py-1 text-xs font-medium">
+              <Sparkles className="w-3 h-3 mr-2" />
               AI-Powered Development Platform
             </Badge>
             
-            <h1 className="text-6xl md:text-8xl font-black text-white mb-8 leading-[0.9] tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-black text-white mb-6 leading-[0.9] tracking-tight">
               What should we
-              <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-white bg-clip-text text-transparent block mt-2">
+              <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-white bg-clip-text text-transparent block mt-1">
                 build today?
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-16 leading-relaxed font-light">
-              From concept to deployment in minutes. Your AI development team that handles 
+            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+              Your AI development team with specialized 
               <span className="text-white font-medium"> frontend</span>, 
               <span className="text-white font-medium"> backend</span>, and 
-              <span className="text-white font-medium"> full-stack architecture</span> with professional precision.
+              <span className="text-white font-medium"> full-stack engineers</span> ready to build your vision.
             </p>
           </div>
         </section>
 
         {/* Input Section */}
-        <section className="pb-20 px-6">
-          <div className="container mx-auto max-w-4xl">
-            <Card className="bg-gray-900/50 border-gray-700/50 backdrop-blur-sm shadow-2xl shadow-black/20">
-              <CardContent className="p-8">
-                <div className="space-y-6">
+        <section className="pb-12 px-6">
+          <div className="container mx-auto max-w-3xl">
+            <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm shadow-2xl shadow-black/10">
+              <CardContent className="p-6">
+                <div className="space-y-4">
                   {/* Role Selection and Usage Stats */}
-                  <div className="flex flex-wrap gap-6 items-center justify-between">
+                  <div className="flex flex-wrap gap-4 items-center justify-between">
                     <Select value={selectedRole} onValueChange={setSelectedRole}>
-                      <SelectTrigger className="w-72 bg-gray-800/50 border-gray-600/50 text-white h-12 text-base">
-                        <SelectValue placeholder="Select your expertise" />
+                      <SelectTrigger className="w-64 bg-gray-800/40 border-gray-600/40 text-white h-10 text-sm">
+                        <SelectValue placeholder="Choose your engineer" />
                       </SelectTrigger>
                       <SelectContent className="bg-gray-800 border-gray-600 backdrop-blur-xl">
                         <SelectItem value="frontend" className="text-white hover:bg-gray-700">Frontend Engineer</SelectItem>
@@ -205,13 +205,13 @@ const Index = () => {
                       </SelectContent>
                     </Select>
                     
-                    <div className="flex items-center space-x-6 text-sm text-gray-400">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-emerald-400 rounded-full" />
+                    <div className="flex items-center space-x-4 text-xs text-gray-400">
+                      <div className="flex items-center space-x-1">
+                        <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
                         <span>Daily: {dailyUsage}/{dailyLimits[userTier] === Infinity ? '∞' : dailyLimits[userTier]}</span>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full" />
+                      <div className="flex items-center space-x-1">
+                        <div className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
                         <span>Monthly: {monthlyUsage}/{monthlyLimits[userTier] === Infinity ? '∞' : monthlyLimits[userTier]}</span>
                       </div>
                     </div>
@@ -219,10 +219,10 @@ const Index = () => {
 
                   {/* Input Box with Integrated File Upload */}
                   <div 
-                    className={`relative border-2 border-dashed rounded-xl transition-all duration-300 ${
+                    className={`relative border-2 border-dashed rounded-lg transition-all duration-300 ${
                       dragActive 
-                        ? 'border-emerald-400 bg-emerald-500/5 shadow-lg shadow-emerald-500/20' 
-                        : 'border-gray-600/50 hover:border-gray-500/50'
+                        ? 'border-emerald-400 bg-emerald-500/5 shadow-lg shadow-emerald-500/15' 
+                        : 'border-gray-600/40 hover:border-gray-500/40'
                     }`}
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}
@@ -231,23 +231,23 @@ const Index = () => {
                   >
                     {/* Uploaded Files Display */}
                     {uploadedFiles.length > 0 && (
-                      <div className="p-6 border-b border-gray-600/50">
-                        <div className="flex flex-wrap gap-3">
+                      <div className="p-4 border-b border-gray-600/40">
+                        <div className="flex flex-wrap gap-2">
                           {uploadedFiles.map((file, index) => (
-                            <div key={index} className="flex items-center gap-3 bg-gray-800/50 rounded-lg px-4 py-3 backdrop-blur-sm">
+                            <div key={index} className="flex items-center gap-2 bg-gray-800/40 rounded-md px-3 py-2 backdrop-blur-sm">
                               {file.type.startsWith('image/') ? (
-                                <Image className="w-4 h-4 text-emerald-400" />
+                                <Image className="w-3 h-3 text-emerald-400" />
                               ) : (
-                                <FileArchive className="w-4 h-4 text-emerald-400" />
+                                <FileArchive className="w-3 h-3 text-emerald-400" />
                               )}
-                              <span className="text-sm text-gray-300 truncate max-w-32 font-medium">
+                              <span className="text-xs text-gray-300 truncate max-w-24 font-medium">
                                 {file.name}
                               </span>
                               <button
                                 onClick={() => removeFile(index)}
                                 className="text-gray-400 hover:text-red-400 transition-colors"
                               >
-                                <X className="w-4 h-4" />
+                                <X className="w-3 h-3" />
                               </button>
                             </div>
                           ))}
@@ -261,14 +261,14 @@ const Index = () => {
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                         placeholder="Describe what you want to build... Be specific about features, design, and functionality."
-                        className="min-h-40 bg-transparent border-none text-white placeholder-gray-500 resize-none focus:ring-0 focus:border-none text-lg leading-relaxed"
+                        className="min-h-32 bg-transparent border-none text-white placeholder-gray-500 resize-none focus:ring-0 focus:border-none text-base leading-relaxed"
                         maxLength={maxWords * 6}
                       />
                       
                       {/* Upload Options Bar */}
-                      <div className="absolute bottom-4 left-4 flex items-center space-x-3">
-                        <label className="cursor-pointer p-3 rounded-lg hover:bg-gray-800/50 transition-colors group">
-                          <Paperclip className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
+                      <div className="absolute bottom-3 left-3 flex items-center space-x-2">
+                        <label className="cursor-pointer p-2 rounded-md hover:bg-gray-800/40 transition-colors group">
+                          <Paperclip className="w-4 h-4 text-gray-400 group-hover:text-emerald-400 transition-colors" />
                           <input
                             type="file"
                             multiple
@@ -278,8 +278,8 @@ const Index = () => {
                           />
                         </label>
                         
-                        <label className="cursor-pointer p-3 rounded-lg hover:bg-gray-800/50 transition-colors group">
-                          <Image className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
+                        <label className="cursor-pointer p-2 rounded-md hover:bg-gray-800/40 transition-colors group">
+                          <Image className="w-4 h-4 text-gray-400 group-hover:text-emerald-400 transition-colors" />
                           <input
                             type="file"
                             multiple
@@ -291,40 +291,40 @@ const Index = () => {
                       </div>
 
                       {/* Word Count */}
-                      <div className="absolute bottom-4 right-4 text-sm text-gray-500 font-medium">
+                      <div className="absolute bottom-3 right-3 text-xs text-gray-500 font-medium">
                         {wordCount}/{maxWords} words
                       </div>
                     </div>
 
                     {/* Drag & Drop Overlay */}
                     {dragActive && (
-                      <div className="absolute inset-0 bg-emerald-500/10 border-2 border-emerald-400 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                      <div className="absolute inset-0 bg-emerald-500/8 border-2 border-emerald-400 rounded-lg flex items-center justify-center backdrop-blur-sm">
                         <div className="text-center">
-                          <Upload className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-                          <p className="text-emerald-400 font-semibold text-lg">Drop files here</p>
-                          <p className="text-emerald-300/80 text-sm mt-1">Images and ZIP files supported</p>
+                          <Upload className="w-10 h-10 text-emerald-400 mx-auto mb-3" />
+                          <p className="text-emerald-400 font-semibold text-base">Drop files here</p>
+                          <p className="text-emerald-300/80 text-xs mt-1">Images and ZIP files supported</p>
                         </div>
                       </div>
                     )}
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex justify-between items-center pt-2">
+                  <div className="flex justify-between items-center pt-1">
                     <Button
                       variant="outline"
                       onClick={() => setShowPricing(!showPricing)}
-                      className="border-gray-600/50 text-white hover:bg-gray-800/50 hover:border-gray-500/50 font-medium"
+                      className="border-gray-600/40 text-white hover:bg-gray-800/40 hover:border-gray-500/40 font-medium text-sm h-9"
                     >
                       View Pricing
                     </Button>
                     <Button
                       onClick={handleSubmit}
                       disabled={!prompt.trim() || !selectedRole || wordCount > maxWords}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-8 py-3 h-auto shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-6 py-2 h-9 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Sparkles className="w-5 h-5 mr-2" />
-                      Generate Code
-                      <ArrowRight className="w-5 h-5 ml-2" />
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Let's Build This!
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </div>
                 </div>
@@ -335,248 +335,206 @@ const Index = () => {
 
         {/* Pricing Section */}
         {showPricing && (
-          <section className="pb-20 px-6">
-            <div className="container mx-auto max-w-7xl">
-              <div className="text-center mb-12">
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Choose Your Plan</h2>
-                <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">Start free and scale as you grow. All plans include hosting and database.</p>
-                <div className="flex items-center justify-center space-x-4">
-                  <span className={`text-base font-medium ${currency === 'USD' ? 'text-white' : 'text-gray-400'}`}>USD</span>
+          <section className="pb-12 px-6">
+            <div className="container mx-auto max-w-6xl">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Choose Your Plan</h2>
+                <p className="text-lg text-gray-400 mb-6 max-w-xl mx-auto">Start free and scale as you grow. All plans include hosting and database.</p>
+                <div className="flex items-center justify-center space-x-3">
+                  <span className={`text-sm font-medium ${currency === 'USD' ? 'text-white' : 'text-gray-400'}`}>USD</span>
                   <Switch
                     checked={currency === 'INR'}
                     onCheckedChange={(checked) => setCurrency(checked ? 'INR' : 'USD')}
                     className="data-[state=checked]:bg-emerald-500"
                   />
-                  <span className={`text-base font-medium ${currency === 'INR' ? 'text-white' : 'text-gray-400'}`}>INR</span>
+                  <span className={`text-sm font-medium ${currency === 'INR' ? 'text-white' : 'text-gray-400'}`}>INR</span>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-4 gap-8">
+              <div className="grid md:grid-cols-4 gap-6">
                 {/* Trial Plan */}
-                <Card className="bg-gray-900/50 border-gray-700/50 backdrop-blur-sm relative">
-                  <CardContent className="p-8">
-                    <div className="text-center mb-8">
-                      <h3 className="text-2xl font-bold text-white mb-4">Trial</h3>
-                      <div className="text-4xl font-bold text-emerald-400 mb-2">Free</div>
-                      <p className="text-gray-400">Forever</p>
+                <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
+                  <CardContent className="p-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-xl font-bold text-white mb-3">Trial</h3>
+                      <div className="text-3xl font-bold text-emerald-400 mb-1">Free</div>
+                      <p className="text-gray-400 text-sm">Forever</p>
                     </div>
-                    <ul className="space-y-4 text-base mb-8">
+                    <ul className="space-y-3 text-sm mb-6">
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         1 request per day
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         20 requests per month
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Free Vercel hosting
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Free Supabase database
                       </li>
                     </ul>
-                    <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-semibold py-3">
+                    <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-semibold py-2 h-9">
                       Get Started
                     </Button>
+                    <p className="text-xs text-gray-500 mt-3 text-center">
+                      * Extra costs may apply if scaling beyond free limits
+                    </p>
                   </CardContent>
                 </Card>
 
                 {/* Premium Plan */}
-                <Card className="bg-gray-900/50 border-emerald-500/50 backdrop-blur-sm relative transform scale-105">
-                  <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-black px-4 py-1 font-semibold">
+                <Card className="bg-gray-900/40 border-emerald-500/40 backdrop-blur-sm relative transform scale-105">
+                  <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-black px-3 py-1 font-semibold text-xs">
                     Most Popular
                   </Badge>
-                  <CardContent className="p-8">
-                    <div className="text-center mb-8">
-                      <h3 className="text-2xl font-bold text-white mb-4">Premium</h3>
-                      <div className="text-4xl font-bold text-emerald-400 mb-2">
+                  <CardContent className="p-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-xl font-bold text-white mb-3">Premium</h3>
+                      <div className="text-3xl font-bold text-emerald-400 mb-1">
                         {currency === 'USD' ? '$' : '₹'}{pricing[currency].premium}
                       </div>
-                      <p className="text-gray-400">per month</p>
+                      <p className="text-gray-400 text-sm">per month</p>
                     </div>
-                    <ul className="space-y-4 text-base mb-8">
+                    <ul className="space-y-3 text-sm mb-6">
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         15 requests per day
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         300 requests per month
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Free Vercel hosting
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Free Supabase database
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Priority support
                       </li>
                     </ul>
-                    <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-semibold py-3">
+                    <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-semibold py-2 h-9">
                       Upgrade Now
                     </Button>
+                    <p className="text-xs text-gray-500 mt-3 text-center">
+                      * Extra costs may apply if scaling beyond free limits
+                    </p>
                   </CardContent>
                 </Card>
 
                 {/* Pro Plan */}
-                <Card className="bg-gray-900/50 border-gray-700/50 backdrop-blur-sm relative">
-                  <CardContent className="p-8">
-                    <div className="text-center mb-8">
-                      <h3 className="text-2xl font-bold text-white mb-4">Pro</h3>
-                      <div className="text-4xl font-bold text-white mb-2">
+                <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
+                  <CardContent className="p-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-xl font-bold text-white mb-3">Pro</h3>
+                      <div className="text-3xl font-bold text-white mb-1">
                         {currency === 'USD' ? '$' : '₹'}{pricing[currency].pro}
                       </div>
-                      <p className="text-gray-400">per month</p>
+                      <p className="text-gray-400 text-sm">per month</p>
                     </div>
-                    <ul className="space-y-4 text-base mb-8">
+                    <ul className="space-y-3 text-sm mb-6">
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         30 requests per day
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         500 requests per month
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Free Vercel hosting
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Free Supabase database
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Advanced features
                       </li>
                     </ul>
-                    <Button className="w-full bg-white hover:bg-gray-100 text-black font-semibold py-3">
+                    <Button className="w-full bg-white hover:bg-gray-100 text-black font-semibold py-2 h-9">
                       Upgrade Now
                     </Button>
+                    <p className="text-xs text-gray-500 mt-3 text-center">
+                      * Extra costs may apply if scaling beyond free limits
+                    </p>
                   </CardContent>
                 </Card>
 
                 {/* Enterprise Plan */}
-                <Card className="bg-gray-900/50 border-gray-700/50 backdrop-blur-sm relative">
-                  <CardContent className="p-8">
-                    <div className="text-center mb-8">
-                      <h3 className="text-2xl font-bold text-white mb-4">Enterprise</h3>
-                      <div className="text-3xl font-bold text-white mb-2">Custom</div>
-                      <p className="text-gray-400">Contact us</p>
+                <Card className="bg-gray-900/40 border-gray-700/40 backdrop-blur-sm relative">
+                  <CardContent className="p-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-xl font-bold text-white mb-3">Enterprise</h3>
+                      <div className="text-2xl font-bold text-white mb-1">Custom</div>
+                      <p className="text-gray-400 text-sm">Contact us</p>
                     </div>
-                    <ul className="space-y-4 text-base mb-8">
+                    <ul className="space-y-3 text-sm mb-6">
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Unlimited requests
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Custom solutions
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Dedicated support
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         Custom integrations
                       </li>
                       <li className="flex items-center text-gray-300">
-                        <Check className="w-5 h-5 text-emerald-400 mr-3 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0" />
                         SLA guarantee
                       </li>
                     </ul>
-                    <Button className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3">
+                    <Button className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 h-9">
                       Contact Sales
                     </Button>
+                    <p className="text-xs text-gray-500 mt-3 text-center">
+                      * Customizable according to needs
+                    </p>
                   </CardContent>
                 </Card>
               </div>
-
-              <p className="text-center text-gray-500 text-sm mt-8 max-w-2xl mx-auto">
-                * Extra costs may apply if scaling beyond free limits of Vercel and Supabase
-              </p>
             </div>
           </section>
         )}
-
-        {/* Features Section */}
-        <section className="pb-20 px-6">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Why Choose Extrox.dev?</h2>
-              <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                Everything you need to build, deploy, and scale your next big idea
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              <Card className="bg-gray-900/50 border-gray-700/50 backdrop-blur-sm hover:border-emerald-500/50 transition-all duration-300 group">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Zap className="w-8 h-8 text-black" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Lightning Fast</h3>
-                  <p className="text-gray-400 leading-relaxed">
-                    Generate production-ready code in seconds. From concept to deployment faster than ever before.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gray-900/50 border-gray-700/50 backdrop-blur-sm hover:border-emerald-500/50 transition-all duration-300 group">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Shield className="w-8 h-8 text-black" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Enterprise Ready</h3>
-                  <p className="text-gray-400 leading-relaxed">
-                    Built with security, scalability, and reliability in mind. Perfect for teams and enterprises.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gray-900/50 border-gray-700/50 backdrop-blur-sm hover:border-emerald-500/50 transition-all duration-300 group">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Rocket className="w-8 h-8 text-black" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Full-Stack Power</h3>
-                  <p className="text-gray-400 leading-relaxed">
-                    Complete solutions with frontend, backend, database, and deployment all in one platform.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800/50 bg-black/50 backdrop-blur-xl">
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid md:grid-cols-4 gap-12">
+      <footer className="border-t border-gray-800/30 bg-black/60 backdrop-blur-xl">
+        <div className="container mx-auto px-6 py-8">
+          <div className="grid md:grid-cols-4 gap-8">
             <div className="md:col-span-1">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center">
-                  <Code className="w-5 h-5 text-black" />
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-7 h-7 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center">
+                  <Code className="w-4 h-4 text-black" />
                 </div>
-                <span className="text-xl font-bold text-white">Extrox.dev</span>
+                <span className="text-lg font-bold text-white">Extrox.dev</span>
               </div>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-gray-400 leading-relaxed text-sm">
                 The future of AI-powered development. Build, deploy, and scale faster than ever.
               </p>
             </div>
             
             <div>
-              <h4 className="text-white font-semibold mb-6 text-lg">Product</h4>
-              <ul className="space-y-4 text-gray-400">
+              <h4 className="text-white font-semibold mb-4 text-base">Product</h4>
+              <ul className="space-y-3 text-gray-400 text-sm">
                 <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
@@ -585,8 +543,8 @@ const Index = () => {
             </div>
             
             <div>
-              <h4 className="text-white font-semibold mb-6 text-lg">Company</h4>
-              <ul className="space-y-4 text-gray-400">
+              <h4 className="text-white font-semibold mb-4 text-base">Company</h4>
+              <ul className="space-y-3 text-gray-400 text-sm">
                 <li><a href="#" className="hover:text-white transition-colors">About</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
@@ -595,8 +553,8 @@ const Index = () => {
             </div>
             
             <div>
-              <h4 className="text-white font-semibold mb-6 text-lg">Support</h4>
-              <ul className="space-y-4 text-gray-400">
+              <h4 className="text-white font-semibold mb-4 text-base">Support</h4>
+              <ul className="space-y-3 text-gray-400 text-sm">
                 <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Community</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Status</a></li>
@@ -605,7 +563,7 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="border-t border-gray-800/50 mt-12 pt-8 text-center text-gray-500">
+          <div className="border-t border-gray-800/30 mt-8 pt-6 text-center text-gray-500 text-sm">
             <p>&copy; 2025 Extrox.dev. All rights reserved. Built with love for developers worldwide.</p>
           </div>
         </div>
