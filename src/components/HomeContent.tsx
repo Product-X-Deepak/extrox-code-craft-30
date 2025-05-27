@@ -7,19 +7,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Upload, Paperclip, Image, FileArchive, Sparkles, Code, X, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { useUserData } from "@/hooks/useUserData";
+import { useProjects } from "@/hooks/useProjects";
+import { supabase } from "@/integrations/supabase/client";
 
 export function HomeContent() {
   const [prompt, setPrompt] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [dragActive, setDragActive] = useState(false);
-  const [userTier, setUserTier] = useState("premium");
-  const [dailyUsage, setDailyUsage] = useState(3);
-  const [monthlyUsage, setMonthlyUsage] = useState(42);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const { profile, subscription, dailyUsage, monthlyUsage } = useUserData();
+  const { createProject, isCreating } = useProjects();
 
   const wordCount = prompt.trim().split(/\s+/).filter(word => word.length > 0).length;
-  const maxWords = userTier === "trial" ? 800 : 2000;
+  const maxWords = subscription?.plan_type === "trial" ? 800 : 2000;
 
   const dailyLimits = {
     trial: 1,
@@ -35,7 +39,7 @@ export function HomeContent() {
     enterprise: Infinity
   };
 
-  const handleDrag = useCallback((e) => {
+  const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
@@ -45,16 +49,16 @@ export function HomeContent() {
     }
   }, []);
 
-  const handleDrop = useCallback((e) => {
+  const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
     
-    const files = [...e.dataTransfer.files];
+    const files = Array.from(e.dataTransfer.files);
     handleFiles(files);
   }, []);
 
-  const handleFiles = (files) => {
+  const handleFiles = (files: File[]) => {
     const validFiles = files.filter(file => {
       const isValidType = file.type.startsWith('image/') || 
                          file.type === 'application/zip' ||
@@ -73,9 +77,10 @@ export function HomeContent() {
     setUploadedFiles(prev => [...prev, ...validFiles]);
   };
 
-  const handleSubmit = () => {
-    const dailyLimit = dailyLimits[userTier];
-    const monthlyLimit = monthlyLimits[userTier];
+  const handleSubmit = async () => {
+    const userTier = subscription?.plan_type || 'trial';
+    const dailyLimit = dailyLimits[userTier as keyof typeof dailyLimits];
+    const monthlyLimit = monthlyLimits[userTier as keyof typeof monthlyLimits];
 
     if (dailyUsage >= dailyLimit) {
       toast({
@@ -104,18 +109,44 @@ export function HomeContent() {
       return;
     }
 
-    setDailyUsage(prev => prev + 1);
-    setMonthlyUsage(prev => prev + 1);
-    
-    toast({
-      title: "Request Submitted",
-      description: "Your development request is being processed!",
-    });
+    try {
+      // Create project
+      const projectTitle = prompt.split(' ').slice(0, 5).join(' ').substring(0, 50);
+      createProject({
+        title: projectTitle,
+        description: prompt,
+        type: selectedRole
+      });
+
+      // Track usage
+      if (user) {
+        await supabase.from('usage_tracking').insert({
+          user_id: user.id,
+          request_type: selectedRole,
+          tokens_used: wordCount
+        });
+      }
+
+      // Reset form
+      setPrompt("");
+      setSelectedRole("");
+      setUploadedFiles([]);
+      
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to submit request.",
+        variant: "destructive"
+      });
+    }
   };
 
-  const removeFile = (index) => {
+  const removeFile = (index: number) => {
     setUploadedFiles(prev => prev.filter((_, i) => i !== index));
   };
+
+  const userDisplayName = profile?.first_name || user?.email?.split('@')[0] || 'there';
+  const userPlan = subscription?.plan_type || 'trial';
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -128,24 +159,24 @@ export function HomeContent() {
                 <Code className="w-4 h-4 text-black" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white tracking-tight">Welcome back, John</h1>
+                <h1 className="text-xl font-bold text-white tracking-tight">Welcome back, {userDisplayName}</h1>
                 <p className="text-sm text-gray-400">Let's build something amazing today</p>
               </div>
             </div>
             <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 px-3 py-1 text-xs font-medium">
               <Sparkles className="w-3 h-3 mr-1" />
-              Premium Plan
+              {userPlan.charAt(0).toUpperCase() + userPlan.slice(1)} Plan
             </Badge>
           </div>
           
           <div className="flex items-center space-x-4 text-xs text-gray-400">
             <div className="flex items-center space-x-1">
               <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
-              <span>Daily: {dailyUsage}/{dailyLimits[userTier] === Infinity ? '∞' : dailyLimits[userTier]}</span>
+              <span>Daily: {dailyUsage}/{dailyLimits[userPlan as keyof typeof dailyLimits] === Infinity ? '∞' : dailyLimits[userPlan as keyof typeof dailyLimits]}</span>
             </div>
             <div className="flex items-center space-x-1">
               <div className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
-              <span>Monthly: {monthlyUsage}/{monthlyLimits[userTier] === Infinity ? '∞' : monthlyLimits[userTier]}</span>
+              <span>Monthly: {monthlyUsage}/{monthlyLimits[userPlan as keyof typeof monthlyLimits] === Infinity ? '∞' : monthlyLimits[userPlan as keyof typeof monthlyLimits]}</span>
             </div>
           </div>
         </div>
@@ -248,7 +279,7 @@ export function HomeContent() {
                           multiple
                           accept="image/*,.zip"
                           className="hidden"
-                          onChange={(e) => handleFiles([...e.target.files])}
+                          onChange={(e) => handleFiles(Array.from(e.target.files || []))}
                         />
                       </label>
                       
@@ -259,7 +290,7 @@ export function HomeContent() {
                           multiple
                           accept="image/*"
                           className="hidden"
-                          onChange={(e) => handleFiles([...e.target.files])}
+                          onChange={(e) => handleFiles(Array.from(e.target.files || []))}
                         />
                       </label>
                     </div>
@@ -286,11 +317,11 @@ export function HomeContent() {
                 <div className="flex justify-end items-center pt-1">
                   <Button
                     onClick={handleSubmit}
-                    disabled={!prompt.trim() || !selectedRole || wordCount > maxWords}
+                    disabled={!prompt.trim() || !selectedRole || wordCount > maxWords || isCreating}
                     className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-6 py-2 h-9 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Sparkles className="w-4 h-4 mr-2" />
-                    Let's Build This!
+                    {isCreating ? 'Creating Project...' : "Let's Build This!"}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>

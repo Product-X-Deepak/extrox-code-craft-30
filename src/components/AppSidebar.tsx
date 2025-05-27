@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +18,11 @@ import {
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useProjects } from "@/hooks/useProjects";
+import { useUserData } from "@/hooks/useUserData";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface AppSidebarProps {
   isCollapsed: boolean;
@@ -25,13 +31,40 @@ interface AppSidebarProps {
 
 export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
   const [activeSection, setActiveSection] = useState("recents");
+  const { user } = useAuth();
+  const { projects, isLoading } = useProjects();
+  const { profile, subscription } = useUserData();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const recentProjects = [
-    "Web Application",
-    "Mobile App", 
-    "API Service",
-    "Database Schema"
-  ];
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate('/');
+      toast({
+        title: "Signed Out",
+        description: "You have been successfully signed out.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to sign out.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const formatTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (diffInDays === 0) return 'Today';
+    if (diffInDays === 1) return '1 day ago';
+    return `${diffInDays} days ago`;
+  };
+
+  const displayProjects = projects?.slice(0, 4) || [];
 
   return (
     <div className={`bg-gray-900/95 border-r border-gray-700/50 backdrop-blur-sm transition-all duration-300 flex flex-col h-full ${
@@ -49,7 +82,7 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
                 <h2 className="text-white font-semibold text-sm">Extrox.dev</h2>
                 <div className="flex items-center space-x-2">
                   <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-xs px-2 py-0">
-                    Pro
+                    {subscription?.plan_type || 'Trial'}
                   </Badge>
                 </div>
               </div>
@@ -135,17 +168,23 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
               </h3>
               
               <div className="space-y-1">
-                {recentProjects.map((project, index) => (
-                  <button
-                    key={index}
-                    className="w-full text-left px-3 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800/50 text-sm transition-colors"
-                  >
-                    <div className="truncate">{project}</div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {Math.floor(Math.random() * 7) + 1} days ago
-                    </div>
-                  </button>
-                ))}
+                {isLoading ? (
+                  <div className="text-gray-500 text-sm">Loading projects...</div>
+                ) : displayProjects.length > 0 ? (
+                  displayProjects.map((project) => (
+                    <button
+                      key={project.id}
+                      className="w-full text-left px-3 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800/50 text-sm transition-colors"
+                    >
+                      <div className="truncate">{project.title}</div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {formatTimeAgo(project.created_at)}
+                      </div>
+                    </button>
+                  ))
+                ) : (
+                  <div className="text-gray-500 text-sm">No projects yet</div>
+                )}
               </div>
             </div>
           </div>
@@ -202,13 +241,16 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
                   <User className="w-3 h-3 text-black" />
                 </div>
                 <div className="text-xs">
-                  <div className="text-white font-medium">User</div>
-                  <div className="text-gray-400">Pro Plan</div>
+                  <div className="text-white font-medium">
+                    {profile?.first_name || user?.email?.split('@')[0] || 'User'}
+                  </div>
+                  <div className="text-gray-400">{subscription?.plan_type || 'Trial'} Plan</div>
                 </div>
               </div>
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={handleLogout}
                 className="text-gray-400 hover:text-white hover:bg-gray-800/50 p-1 h-6 w-6"
               >
                 <LogOut className="w-3 h-3" />
@@ -227,9 +269,10 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
             <Button
               variant="ghost"
               size="sm"
+              onClick={handleLogout}
               className="w-full h-8 text-gray-400 hover:text-white hover:bg-gray-800/50"
             >
-              <User className="w-4 h-4" />
+              <LogOut className="w-4 h-4" />
             </Button>
           </div>
         )}
