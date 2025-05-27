@@ -1,5 +1,4 @@
 
-import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -13,6 +12,7 @@ interface Project {
   status: string;
   created_at: string;
   updated_at: string;
+  user_id: string;
 }
 
 export const useProjects = () => {
@@ -32,6 +32,7 @@ export const useProjects = () => {
       const { data, error } = await supabase
         .from('projects')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -41,7 +42,7 @@ export const useProjects = () => {
   });
 
   const createProjectMutation = useMutation({
-    mutationFn: async (projectData: { title: string; description?: string; type: string }) => {
+    mutationFn: async (projectData: { title: string; description?: string | null; type: string }) => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
@@ -76,7 +77,7 @@ export const useProjects = () => {
     projects,
     isLoading,
     error,
-    createProject: createProjectMutation.mutate,
+    createProject: createProjectMutation.mutateAsync,
     isCreating: createProjectMutation.isPending,
   };
 };

@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { 
   MessageSquare, 
-  Plus, 
   Clock, 
   FolderOpen, 
   Users, 
@@ -16,13 +16,15 @@ import {
   User,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Search
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useProjects } from "@/hooks/useProjects";
 import { useUserData } from "@/hooks/useUserData";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { NewProjectModal } from "./NewProjectModal";
 
 interface AppSidebarProps {
   isCollapsed: boolean;
@@ -31,6 +33,7 @@ interface AppSidebarProps {
 
 export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
   const [activeSection, setActiveSection] = useState("recents");
+  const [searchQuery, setSearchQuery] = useState("");
   const { user } = useAuth();
   const { projects, isLoading } = useProjects();
   const { profile, subscription } = useUserData();
@@ -64,7 +67,14 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
     return `${diffInDays} days ago`;
   };
 
-  const displayProjects = projects?.slice(0, 3) || [];
+  const filteredProjects = projects?.filter(project => 
+    project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    project.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
+  const displayProjects = activeSection === "recents" 
+    ? filteredProjects.slice(0, 5)
+    : filteredProjects;
 
   return (
     <div className={`fixed left-0 top-0 h-full bg-gray-900/98 border-r border-gray-700/50 backdrop-blur-xl shadow-2xl transition-all duration-300 ease-in-out z-50 flex flex-col ${
@@ -98,18 +108,9 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
           </Button>
         </div>
 
-        {!isCollapsed && (
-          <Button className="w-full mt-4 bg-emerald-500 hover:bg-emerald-600 text-black font-semibold h-9 shadow-lg shadow-emerald-500/20 transition-all">
-            <Plus className="w-4 h-4 mr-2" />
-            New Project
-          </Button>
-        )}
-        
-        {isCollapsed && (
-          <Button className="w-full mt-4 bg-emerald-500 hover:bg-emerald-600 text-black font-semibold h-9 shadow-lg shadow-emerald-500/20 transition-all p-0">
-            <Plus className="w-4 h-4" />
-          </Button>
-        )}
+        <div className="mt-4">
+          <NewProjectModal isCollapsed={isCollapsed} />
+        </div>
       </div>
 
       {/* Navigation */}
@@ -118,10 +119,13 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
           <div className="p-4 space-y-6">
             {/* Search */}
             <div className="relative">
-              <input
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
                 type="text"
                 placeholder="Search projects..."
-                className="w-full bg-gray-800/50 border border-gray-600/50 rounded-lg px-3 py-2.5 text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-gray-800/50 border border-gray-600/50 rounded-lg text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
               />
             </div>
 
@@ -148,7 +152,7 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
                 }`}
               >
                 <FolderOpen className="w-4 h-4" />
-                <span>All Projects</span>
+                <span>All Projects ({projects?.length || 0})</span>
               </button>
 
               <button
@@ -173,7 +177,7 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
                  activeSection === "projects" ? "All Projects" : "Team Projects"}
               </h3>
               
-              <div className="space-y-1">
+              <div className="space-y-1 max-h-64 overflow-y-auto">
                 {isLoading ? (
                   <div className="text-gray-500 text-sm">Loading projects...</div>
                 ) : displayProjects.length > 0 ? (
@@ -186,8 +190,13 @@ export function AppSidebar({ isCollapsed, onToggle }: AppSidebarProps) {
                       <div className="text-xs text-gray-500 mt-0.5">
                         {formatTimeAgo(project.created_at)}
                       </div>
+                      {project.description && (
+                        <div className="text-xs text-gray-600 mt-1 truncate">{project.description}</div>
+                      )}
                     </button>
                   ))
+                ) : searchQuery ? (
+                  <div className="text-gray-500 text-sm px-3 py-2">No projects found</div>
                 ) : (
                   <div className="text-gray-500 text-sm px-3 py-2">No projects yet</div>
                 )}

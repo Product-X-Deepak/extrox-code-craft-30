@@ -37,9 +37,9 @@ const Auth = () => {
         setSession(session);
         setUser(session?.user ?? null);
         
-        // Redirect authenticated users to dashboard
+        // Redirect authenticated users to home page
         if (session?.user) {
-          navigate('/dashboard');
+          navigate('/home');
         }
       }
     );
@@ -51,7 +51,7 @@ const Auth = () => {
       
       // Redirect if already authenticated
       if (session?.user) {
-        navigate('/dashboard');
+        navigate('/home');
       }
     });
 
@@ -195,7 +195,7 @@ const Auth = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: `${window.location.origin}/home`
         }
       });
 
@@ -216,7 +216,7 @@ const Auth = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: `${window.location.origin}/home`
         }
       });
 
