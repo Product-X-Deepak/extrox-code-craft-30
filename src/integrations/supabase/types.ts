@@ -9,6 +9,80 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          message_type: string | null
+          project_id: string
+          sender: string
+          timestamp: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          message_type?: string | null
+          project_id: string
+          sender: string
+          timestamp?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          message_type?: string | null
+          project_id?: string
+          sender?: string
+          timestamp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      model_providers: {
+        Row: {
+          api_key: string | null
+          created_at: string
+          default_parameters: Json | null
+          endpoint_url: string | null
+          id: string
+          is_active: boolean
+          name: string
+          provider: string
+          updated_at: string
+        }
+        Insert: {
+          api_key?: string | null
+          created_at?: string
+          default_parameters?: Json | null
+          endpoint_url?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          provider: string
+          updated_at?: string
+        }
+        Update: {
+          api_key?: string | null
+          created_at?: string
+          default_parameters?: Json | null
+          endpoint_url?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          provider?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -39,11 +113,55 @@ export type Database = {
         }
         Relationships: []
       }
+      project_analytics: {
+        Row: {
+          completion_rate: boolean
+          created_at: string
+          follow_up_questions_count: number
+          id: string
+          project_id: string
+          prompt_length: number
+          time_to_first_reply: number | null
+          time_to_plan_generation: number | null
+        }
+        Insert: {
+          completion_rate?: boolean
+          created_at?: string
+          follow_up_questions_count?: number
+          id?: string
+          project_id: string
+          prompt_length?: number
+          time_to_first_reply?: number | null
+          time_to_plan_generation?: number | null
+        }
+        Update: {
+          completion_rate?: boolean
+          created_at?: string
+          follow_up_questions_count?: number
+          id?: string
+          project_id?: string
+          prompt_length?: number
+          time_to_first_reply?: number | null
+          time_to_plan_generation?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_analytics_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           created_at: string
           description: string | null
           id: string
+          initial_prompt: string | null
+          plan_draft: string | null
+          role: string | null
           status: string
           title: string
           type: string
@@ -54,6 +172,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          initial_prompt?: string | null
+          plan_draft?: string | null
+          role?: string | null
           status?: string
           title: string
           type?: string
@@ -64,6 +185,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          initial_prompt?: string | null
+          plan_draft?: string | null
+          role?: string | null
           status?: string
           title?: string
           type?: string
@@ -71,6 +195,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      role_to_model_mapping: {
+        Row: {
+          created_at: string
+          id: string
+          model_name: string
+          model_provider_id: string
+          role: string
+          user_tier: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          model_name: string
+          model_provider_id: string
+          role: string
+          user_tier: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          model_name?: string
+          model_provider_id?: string
+          role?: string
+          user_tier?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_to_model_mapping_model_provider_id_fkey"
+            columns: ["model_provider_id"]
+            isOneToOne: false
+            referencedRelation: "model_providers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       usage_tracking: {
         Row: {
@@ -150,6 +309,36 @@ export type Database = {
           status?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      user_tiers: {
+        Row: {
+          created_at: string
+          daily_limit: number
+          id: string
+          model_access: string[] | null
+          monthly_limit: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          daily_limit?: number
+          id?: string
+          model_access?: string[] | null
+          monthly_limit?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          daily_limit?: number
+          id?: string
+          model_access?: string[] | null
+          monthly_limit?: number
+          name?: string
+          updated_at?: string
         }
         Relationships: []
       }

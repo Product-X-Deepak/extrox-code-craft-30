@@ -1,11 +1,10 @@
-
 import React, { useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Upload, Paperclip, Image, FileArchive, Sparkles, Code, X, ArrowRight } from "lucide-react";
+import { Upload, Paperclip, Image, FileArchive, Sparkles, Code, X, ArrowRight, Brain, Server, Layers } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserData } from "@/hooks/useUserData";
@@ -14,7 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export function HomeContent() {
   const [prompt, setPrompt] = useState("");
-  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedRole, setSelectedRole] = useState("frontend");
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [dragActive, setDragActive] = useState(false);
   const { toast } = useToast();
@@ -110,12 +109,14 @@ export function HomeContent() {
     }
 
     try {
-      // Create project
+      // Create project with enhanced data
       const projectTitle = prompt.split(' ').slice(0, 5).join(' ').substring(0, 50);
       const newProject = await createProject({
         title: projectTitle,
         description: prompt,
-        type: selectedRole
+        type: selectedRole as 'frontend' | 'backend' | 'fullstack',
+        initial_prompt: prompt,
+        role: selectedRole as 'frontend' | 'backend' | 'fullstack'
       });
 
       // Track usage
@@ -129,7 +130,7 @@ export function HomeContent() {
 
       // Reset form
       setPrompt("");
-      setSelectedRole("");
+      setSelectedRole("frontend");
       setUploadedFiles([]);
 
       // Navigate to development page
@@ -152,6 +153,32 @@ export function HomeContent() {
 
   const userDisplayName = profile?.first_name || user?.email?.split('@')[0] || 'there';
   const userPlan = subscription?.plan_type || 'trial';
+
+  const getRoleIcon = (role: string) => {
+    switch (role) {
+      case 'frontend':
+        return <Brain className="w-4 h-4" />;
+      case 'backend':
+        return <Server className="w-4 h-4" />;
+      case 'fullstack':
+        return <Layers className="w-4 h-4" />;
+      default:
+        return <Code className="w-4 h-4" />;
+    }
+  };
+
+  const getRoleDescription = (role: string) => {
+    switch (role) {
+      case 'frontend':
+        return 'Generate a fully-fledged, production-grade UI with best practices (responsive layout, accessibility, component library, etc.)';
+      case 'backend':
+        return 'Scaffold a minimal front end, then implement full backend: workflows, serverless functions or REST endpoints, and database schema/migrations';
+      case 'fullstack':
+        return 'Deliver end-to-end code: frontend components, backend services, and database models + seed data';
+      default:
+        return 'AI-powered development assistant';
+    }
+  };
 
   return (
     <div className="flex-1 overflow-y-auto h-screen">
@@ -187,7 +214,7 @@ export function HomeContent() {
         </div>
       </header>
 
-      {/* Main Content - More Compact */}
+      {/* Main Content */}
       <main className="p-6">
         {/* Compact Hero Section */}
         <section className="mb-6">
@@ -208,23 +235,58 @@ export function HomeContent() {
           </div>
         </section>
 
-        {/* Compact Input Section */}
+        {/* Enhanced Input Section */}
         <section className="max-w-3xl mx-auto">
           <Card className="bg-gray-900/50 border-gray-700/40 backdrop-blur-sm shadow-xl shadow-black/20">
             <CardContent className="p-5">
               <div className="space-y-4">
-                {/* Role Selection */}
-                <div className="flex flex-wrap gap-3 items-center justify-between">
+                {/* Enhanced Role Selection */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-gray-300">Choose Your AI Engineer</label>
                   <Select value={selectedRole} onValueChange={setSelectedRole}>
-                    <SelectTrigger className="w-56 bg-gray-800/50 border-gray-600/50 text-white h-9 text-sm">
-                      <SelectValue placeholder="Choose your engineer" />
+                    <SelectTrigger className="w-full bg-gray-800/50 border-gray-600/50 text-white h-12 text-sm">
+                      <div className="flex items-center gap-3">
+                        {getRoleIcon(selectedRole)}
+                        <SelectValue placeholder="Choose your engineer" />
+                      </div>
                     </SelectTrigger>
                     <SelectContent className="bg-gray-800 border-gray-600 backdrop-blur-xl">
-                      <SelectItem value="frontend" className="text-white hover:bg-gray-700">Frontend Engineer</SelectItem>
-                      <SelectItem value="backend" className="text-white hover:bg-gray-700">Backend Engineer</SelectItem>
-                      <SelectItem value="fullstack" className="text-white hover:bg-gray-700">Full-Stack Engineer</SelectItem>
+                      <SelectItem value="frontend" className="text-white hover:bg-gray-700">
+                        <div className="flex items-center gap-3 py-2">
+                          <Brain className="w-4 h-4 text-blue-400" />
+                          <div>
+                            <div className="font-medium">Frontend Engineer</div>
+                            <div className="text-xs text-gray-400">Production-grade UI with best practices</div>
+                          </div>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="backend" className="text-white hover:bg-gray-700">
+                        <div className="flex items-center gap-3 py-2">
+                          <Server className="w-4 h-4 text-green-400" />
+                          <div>
+                            <div className="font-medium">Backend Engineer</div>
+                            <div className="text-xs text-gray-400">APIs, databases, and serverless functions</div>
+                          </div>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="fullstack" className="text-white hover:bg-gray-700">
+                        <div className="flex items-center gap-3 py-2">
+                          <Layers className="w-4 h-4 text-purple-400" />
+                          <div>
+                            <div className="font-medium">Full-Stack Engineer</div>
+                            <div className="text-xs text-gray-400">End-to-end development solution</div>
+                          </div>
+                        </div>
+                      </SelectItem>
                     </SelectContent>
                   </Select>
+                  
+                  {/* Role Description */}
+                  <div className="p-3 bg-gray-800/30 rounded-lg border border-gray-700/30">
+                    <p className="text-xs text-gray-400 leading-relaxed">
+                      {getRoleDescription(selectedRole)}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Improved Input Box with Better Layout */}
@@ -326,7 +388,7 @@ export function HomeContent() {
                   <Button
                     onClick={handleSubmit}
                     disabled={!prompt.trim() || !selectedRole || wordCount > maxWords || isCreating}
-                    className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-5 py-2 h-9 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/35 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-6 py-2 h-11 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/35 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Sparkles className="w-4 h-4 mr-2" />
                     {isCreating ? 'Creating...' : "Let's Build This!"}
