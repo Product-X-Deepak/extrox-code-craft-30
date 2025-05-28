@@ -19,7 +19,7 @@ export function NewProjectModal({ isCollapsed = false }: NewProjectModalProps) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    type: 'web-app'
+    type: 'frontend' as 'frontend' | 'backend' | 'fullstack'
   });
   
   const { createProject, isCreating } = useProjects();
@@ -41,10 +41,11 @@ export function NewProjectModal({ isCollapsed = false }: NewProjectModalProps) {
       await createProject({
         title: formData.title,
         description: formData.description || null,
-        type: formData.type
+        type: formData.type,
+        role: formData.type
       });
       
-      setFormData({ title: '', description: '', type: 'web-app' });
+      setFormData({ title: '', description: '', type: 'frontend' });
       setOpen(false);
     } catch (error) {
       // Error is handled in the hook
@@ -83,17 +84,14 @@ export function NewProjectModal({ isCollapsed = false }: NewProjectModalProps) {
           
           <div className="space-y-2">
             <Label htmlFor="type">Project Type</Label>
-            <Select value={formData.type} onValueChange={(value) => setFormData(prev => ({ ...prev, type: value }))}>
+            <Select value={formData.type} onValueChange={(value: 'frontend' | 'backend' | 'fullstack') => setFormData(prev => ({ ...prev, type: value }))}>
               <SelectTrigger>
                 <SelectValue placeholder="Select project type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="web-app">Web Application</SelectItem>
-                <SelectItem value="mobile-app">Mobile Application</SelectItem>
-                <SelectItem value="api">API Service</SelectItem>
-                <SelectItem value="landing-page">Landing Page</SelectItem>
-                <SelectItem value="e-commerce">E-commerce</SelectItem>
-                <SelectItem value="blog">Blog</SelectItem>
+                <SelectItem value="frontend">Frontend Application</SelectItem>
+                <SelectItem value="backend">Backend Service</SelectItem>
+                <SelectItem value="fullstack">Full-Stack Application</SelectItem>
               </SelectContent>
             </Select>
           </div>
