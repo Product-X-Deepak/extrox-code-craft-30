@@ -2,17 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string | null;
-  type: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-  user_id: string;
-}
+import type { Project } from '@/types/workflow';
 
 export const useProject = (projectId: string | undefined) => {
   const { user } = useAuth();

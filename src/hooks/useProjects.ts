@@ -3,17 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { useToast } from './use-toast';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string | null;
-  type: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-  user_id: string;
-}
+import type { Project } from '@/types/workflow';
 
 export const useProjects = () => {
   const { user } = useAuth();
@@ -42,7 +32,13 @@ export const useProjects = () => {
   });
 
   const createProjectMutation = useMutation({
-    mutationFn: async (projectData: { title: string; description?: string | null; type: string }) => {
+    mutationFn: async (projectData: { 
+      title: string; 
+      description?: string | null; 
+      type: 'frontend' | 'backend' | 'fullstack';
+      initial_prompt?: string;
+      role?: 'frontend' | 'backend' | 'fullstack';
+    }) => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
